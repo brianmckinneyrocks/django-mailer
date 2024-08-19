@@ -64,6 +64,7 @@ class Message(models.Model):
     to_address = models.CharField(max_length=50)
     from_address = models.CharField(max_length=50)
     subject = models.CharField(max_length=100)
+    message_data = models.TextField()
     message_body = models.TextField()
     when_added = models.DateTimeField(default=datetime.now)
     priority = models.CharField(max_length=1, choices=PRIORITIES, default='2')
@@ -150,6 +151,7 @@ class MessageLog(models.Model):
     from_address = models.CharField(max_length=50)
     subject = models.CharField(max_length=100)
     message_body = models.TextField()
+    message_data = models.TextField()
     when_added = models.DateTimeField()
     priority = models.CharField(max_length=1, choices=PRIORITIES)
     # @@@ campaign?
