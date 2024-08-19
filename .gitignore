@@ -1,0 +1,6 @@
+*.pyc
+*.patch
+*.db
+*.dump
+*.sqlite3
+
