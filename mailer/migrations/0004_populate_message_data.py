@@ -15,20 +15,34 @@ class Migration(DataMigration):
         # Use orm.ModelName to refer to models in this application,
         # and orm['appname.ModelName'] for models in other applications.
         for message in orm.Message.objects.all():
-             core_msg = EmailMessage(
-                  subject=message.subject,
-                  body=message.message_body,
-                  from_email=message.from_address,
-                  to=[message.to_address],
-             )
-             core_msg_encoded = base64.encodestring(pickle.dumps(core_msg))
-             message.message_data = core_msg_encoded
-             message.save()
-             print("Added message_data for message %s" % message.id)
+            core_msg = EmailMessage(
+                 subject=message.subject,
+                 body=message.message_body,
+                 from_email=message.from_address,
+                 to=[message.to_address],
+            )
+            core_msg_encoded = base64.encodestring(pickle.dumps(core_msg))
+            message.message_data = core_msg_encoded
+            message.save()
+
+        for message in orm.MessageLog.objects.all():
+            core_msg = EmailMessage(
+                 subject=message.subject,
+                 body=message.message_body,
+                 from_email=message.from_address,
+                 to=[message.to_address],
+            )
+            core_msg_encoded = base64.encodestring(pickle.dumps(core_msg))
+            message.message_data = core_msg_encoded
+            message.save() 
 
     def backwards(self, orm):
         "Remove messge_data data."
         for message in orm.Message.objects.all():
+            message.message_data = ''
+            message.save() 
+  
+        for message in orm.MessageLog.objects.all():
             message.message_data = ''
             message.save() 
 
